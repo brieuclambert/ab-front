@@ -8,12 +8,15 @@
             </at-menu-item>
 
             <at-menu-item name="4">
-                <router-link class="" to="/login">
-                    <i class="icon icon-settings"></i>Login
+                <router-link class="" to="/signup">
+                    <i class="icon icon-user-plus"></i>Signup
                 </router-link>
             </at-menu-item>
-
-
+            <at-menu-item name="4">
+                <router-link class="" to="/app">
+                    <i class="icon icon-clock"></i>Tracking
+                </router-link>
+            </at-menu-item>
         </at-menu>
     </div>
 </template>

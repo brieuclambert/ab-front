@@ -1,8 +1,10 @@
 import Home from './components/home.vue'
-import Login from './components/login.vue'
+import Signup from './components/signup.vue'
+import Dashboard from './components/dashboard.vue'
 
 
 export const routes = [
     {path: '/', component: Home},
-    {path: '/login', component: Login}
+    {path: '/signup', component: Signup},
+    {path: '/app', component: Dashboard}
 ]
