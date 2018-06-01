@@ -16,8 +16,7 @@ Vue.use(AtComponents)
 Vue.use(AtUI)
 Vue.use(VueRouter)
 const router = new VueRouter({
-  routes,
-  mode: 'history'
+  routes
 })
 
 new Vue({

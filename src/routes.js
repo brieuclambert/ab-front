@@ -6,5 +6,5 @@ import Dashboard from './components/dashboard.vue'
 export const routes = [
     {path: '/', component: Home},
     {path: '/signup', component: Signup},
-    {path: '/app', component: Dashboard}
+    {path: '/clients', component: Dashboard}
 ]
