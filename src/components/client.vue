@@ -3,15 +3,8 @@
         <navbar></navbar>
         <div class="flex-between">
             <div class="row">
-                <div class="col-md-8" v-for="(client, index) in clients">
-                    <at-card style="width: 310px; margin: 20px auto;">
-                        <h4 slot="title">{{ client.name }}</h4>
-                        <div slot="extra"><a>{{ index }}</a></div>
-                        <ul>
-                            <li>Owner :  {{ client.sales_owner}}</li>
-                            <li>MRR : {{ client.mrr }} </li>
-                        </ul>
-                    </at-card>
+                <div class="col-md-8" >
+
                 </div>
             </div>
         </div>

@@ -13,7 +13,7 @@
                 </router-link>
             </at-menu-item>
             <at-menu-item name="4">
-                <router-link class="" to="/app">
+                <router-link class="" to="/clients">
                     <i class="icon icon-clock"></i>Tracking
                 </router-link>
             </at-menu-item>
