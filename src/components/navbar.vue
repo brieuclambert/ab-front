@@ -17,6 +17,11 @@
                     <i class="icon icon-clock"></i>Tracking
                 </router-link>
             </at-menu-item>
+            <at-menu-item name="4">
+                <router-link class="" to="/client/232">
+                    <i class="icon icon-award"></i>Client
+                </router-link>
+            </at-menu-item>
         </at-menu>
     </div>
 </template>
