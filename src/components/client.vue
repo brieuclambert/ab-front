@@ -7,11 +7,18 @@
             <div class="col-md-4"><div class="at-box-row bg-c-brand-dark">Status : {{ client.status}}</div></div>
             <div class="col-md-4"><div class="at-box-row bg-c-brand-light">MRR : {{ client.mrr}}</div></div>
         </div>
-        <div v-for="entry in entries">
-            <div class="row at-row no-gutter flex-center">
-                <div class="col-md-4"><div class="at-box-row bg-c-brand-dark">Name : {{ entry.task}} </div></div>
-                <div class="col-md-4"><div class="at-box-row bg-c-brand-light">Description : {{ entry.description}}</div></div>
-                <div class="col-md-4"><div class="at-box-row bg-c-brand-dark">Duration : {{ entry.hours}}h{{entry.minutes}}</div></div>
+        <div class="row at-row no-gutter" v-for="entry in entries">
+            <div class="col-md-4">
+                <at-card style="width: 310px; margin: 20px auto;">
+                    <h4 slot="title">{{ entry.created_at }}</h4>
+                    <div slot="extra">
+                        {{ entry.hours}}h{{entry.minutes}}
+                    </div>
+                    <ul>
+                        <li>{{ entry.description}}</li>
+                        <li>{{ entry.task }} </li>
+                    </ul>
+                </at-card>
             </div>
         </div>
     </div>
