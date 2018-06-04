@@ -54,9 +54,6 @@ export default {
 </script>
 
 <style>
-.coin-ticker-row {
-    padding-top: 20px;
-}
 
 
 </style>
