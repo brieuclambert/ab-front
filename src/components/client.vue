@@ -2,14 +2,37 @@
     <div>
         <navbar></navbar>
         <div class="flex-between">
-            <div class="row at-row no-gutter flex-center">
-                <div class="col-md-4"><div class="at-box-row bg-c-brand-dark">Name : {{ client.name}} </div></div>
-                <div class="col-md-4"><div class="at-box-row bg-c-brand-light">Owner : {{ client.sales_owner}}</div></div>
-                <div class="col-md-4"><div class="at-box-row bg-c-brand-dark">Status : {{ client.status}}</div></div>
-                <div class="col-md-4"><div class="at-box-row bg-c-brand-light">MRR : {{ client.mrr}}</div></div>
-                <div class="col-md-4"><div class="at-box-row bg-c-brand-light">CSM : {{ client.csm_owner}}</div></div>
+            <div class="row at-row no-gutter flex-center flex-middle dashboard">
+                <div class="col-md-4">
+                    <div class="at-box-row bg-c-brand-dark">
+                        <i class="icon icon-star"></i>
+                        &nbsp{{ client.name}} </div>
+                    </div>
+                <div class="col-md-4">
+                    <div class="at-box-row bg-c-brand-light">
+                            {{ client.sales_owner}}
+                        <br>{{ client.csm_owner}}
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="at-box-row bg-c-brand-dark">
+                        <i class="icon icon-star"></i>
+                        &nbsp {{ client.status}}
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="at-box-row bg-c-brand-light">
+                        <i class="icon icon-star"></i>
+                        &nbsp{{ client.mrr}}
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="at-box-row bg-c-brand-light">
+                        <i class="icon icon-star"></i>
+                        &nbsp{{ client.csm_owner}}
+                    </div>
+                </div>
             </div>
-
         </div>
         <div class="row at-row no-gutter">
             <div class="col-md-8">
@@ -146,6 +169,7 @@
                 .then(data => {
                         // console.log(Object.keys(data))
                         console.log(data)
+                        this.$Notify.success({ title: "It's in the box!", message: "Spent " + this.parameters.duration + " hours on '" + this.parameters.task + "' for " + this.client.name })
                         this.parameters = {
                             description: null,
                             task: null,
@@ -177,5 +201,9 @@
     margin: 3px 5px;
     text-align: center;
 }
-
+.dashboard {
+    height: 80px;
+    border-bottom: solid 1px #E3ECF4;
+    padding: auto;
+}
 </style>
