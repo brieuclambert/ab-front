@@ -1,6 +1,5 @@
 <template>
     <div>
-        <navbar></navbar>
         <div class="row login-row">
             <div class="col-xs-24 col-sm-24 col-md-24 col-lg-24">
                 <div class="form-login-container">
@@ -9,21 +8,20 @@
                     </div>
                     <div class="form-item">
                         <p class="form-label">Email</p>
-                        <at-input name="input" v-model="params.email" v-on:change="checkEmailValidity"  placeholder="sarah@abtasty.com" :status="emailSuccess"></at-input>
+                        <at-input name="input" v-model="params.email" placeholder="sarah@abtasty.com"></at-input>
                     </div>
 
                     <div class="form-item">
                         <p class="form-label">Password</p>
                         <at-input type="password" v-model="params.password" placeholder="azerty"></at-input>
                     </div>
-
                     <div class="form-item">
-                        <at-button type="primary" ref="button-loading" v-on:click="signin">Login</at-button>
+                        <at-button type="primary" v-on:click="signin">Login</at-button>
                         <router-link class="" to="/signup">
                             <at-button type="text">Don't have an account yet?</at-button>
                         </router-link>
-
                     </div>
+                    <p>status : {{ status }}</p>
                 </div>
 
             </div>
@@ -42,20 +40,31 @@ export default {
             params: {
                 email: null,
                 password: null
-            }
+            },
+            status: 0,
+            token: document.cookie.split('jwt=')[1]
         }
     },
+    mounted() {
+        this.checkIfAlreadyLogged()
+    },
     methods: {
+        checkIfAlreadyLogged() {
+            this.$http.get('https://abtracking.herokuapp.com/myclients', { headers: { Authorization:this.token}})
+            .then(response => {
+                this.$router.push({ path: '/dashboard' })
+            }, response => {
+                document.cookie = "jwt="
+            })
+        },
         signin () {
             this.$http.post('https://abtracking.herokuapp.com/auth/login', this.params)
                 .then(response => {
-                    this.loading = !this.loading
-                    console.log(response)
-                    return response.json()
-                })
-                .then(data => {
-                    console.log(data)
-                    document.cookie = "jwt=" + data['auth_token']
+                    document.cookie = "jwt=" + response.body.auth_token
+                    this.$router.push({ path: '/dashboard' })
+                }, response => {
+                    this.params.password = ""
+                    this.$Notify.error({ title: "Could not login", message: response.body.message})
                 })
         }
     }

@@ -7,6 +7,6 @@ import Client from './components/client.vue'
 export const routes = [
     {path: '/', component: Home},
     {path: '/signup', component: Signup},
-    {path: '/clients', component: Dashboard},
+    {path: '/dashboard', component: Dashboard},
     {path: '/client/:id', component: Client}
 ]

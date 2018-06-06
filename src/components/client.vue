@@ -1,7 +1,7 @@
 <template>
     <div>
         <navbar></navbar>
-        <div class="flex-between">
+        <!-- <div class="flex-between">
             <div class="row at-row no-gutter flex-center flex-middle dashboard">
                 <div class="col-md-4">
                     <div class="at-box-row bg-c-brand-dark">
@@ -33,7 +33,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> -->
         <div class="row at-row no-gutter">
             <div class="col-md-8">
                 <div class="form-new-entry-container">
@@ -118,12 +118,12 @@
                 dashboard: null,
                 client: null,
                 entries: null,
+                token: document.cookie.split('jwt=')[1],
                 parameters: {
                     description: null,
                     task: null,
                     hours: 0,
                     minutes: 0,
-                    test_number: '23728',
                     duration: 0
                 }
             }
@@ -146,7 +146,9 @@
         },
         methods: {
             fetchEntries() {
-                this.$http.get('https://abtracking.herokuapp.com/clients/'+ this.$route.params.id + '/entries', { header: {Authorization:document.cookie.split('=')[0]}})
+                console.log(this.token)
+                console.log("start")
+                this.$http.get('https://abtracking.herokuapp.com/clients/'+ this.$route.params.id + '/entries', { headers: { Authorization:this.token}})
                 .then(response => {
                     console.log(response)
                     return response.json()
@@ -154,14 +156,17 @@
                 .then(data => {
                             // console.log(Object.keys(data))
                             console.log(data)
-                            // this.entries = data['entries']
+                            this.entries = data
                             // this.client = data['client']
                             // this.dashboard = data['dashboard']
                         })
             },
             sendEntry() {
+                console.log(this.token)
                 this.parameters.duration = parseFloat(this.parameters.minutes / 60) + parseFloat(this.parameters.hours)
-                this.$http.post('https://abtracking.herokuapp.com/clients/' + this.$route.params.id + '/entries', this.parameters)
+                this.$http.post('https://abtracking.herokuapp.com/clients/' + this.$route.params.id + '/entries',
+                    this.parameters,
+                    { headers: { Authorization:this.token}})
                 .then(response => {
                     console.log(response)
                     return response.json()
@@ -175,7 +180,6 @@
                             task: null,
                             hours: null,
                             minutes: null,
-                            test_number: '23728',
                             duration: 0
                         }
                         this.fetchEntries()
