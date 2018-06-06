@@ -2,6 +2,16 @@
     <div>
         <navbar></navbar>
         <div class="flex-between">
+            <div class="row at-row no-gutter flex-center flex-middle dashboard">
+                <div class="col-md-4">
+                    total MRR : {{ dashboard.sum}}
+                </div>
+                <div class="col-md-4">
+                    total clients : {{ dashboard.count}}
+                </div>
+            </div>
+        </div>
+        <div class="flex-between">
             <div class="row">
                 <div class="col-md-8" v-for="(client, index) in clients">
                     <at-card style="width: 310px; margin: 20px auto;">
@@ -32,7 +42,7 @@ export default {
     data() {
         return {
             clients: null,
-            token: document.cookie.split('=')[1],
+            token: document.cookie.split('jwt=')[1],
             dashboard: null
         }
     },
@@ -40,18 +50,19 @@ export default {
         this.fetchClients()
     },
     methods: {
+
         fetchClients() {
-            console.log("starting request")
             this.$http.get('https://abtracking.herokuapp.com/myclients', { headers: { Authorization:this.token}})
             .then(response => {
-                console.log(response)
-                console.log("received response")
+                this.clients = response.body.clients
+                this.dashboard = response.body.dashboard
                 return response.json()
-            })
-            .then(data => {
-                console.log(data)
-                this.clients = data['clients']
-                this.dashboard = data['dashboard']
+            }, response => {
+                if (response.body.message == "Missing token") {
+                    this.$Notify.error({ title: "Could not fetch your info", message: "You're not logged in"})
+                    this.$router.push({ path: '/' })
+                }
+
             })
         }
     }
@@ -59,6 +70,10 @@ export default {
 </script>
 
 <style>
-
+.dashboard {
+    height: 80px;
+    border-bottom: solid 1px #E3ECF4;
+    padding: auto;
+}
 
 </style>
