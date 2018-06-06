@@ -146,7 +146,7 @@
         },
         methods: {
             fetchEntries() {
-                this.$http.get('https://abtracking.herokuapp.com/clients/'+ this.$route.params.id + '/entries')
+                this.$http.get('https://abtracking.herokuapp.com/clients/'+ this.$route.params.id + '/entries', { header: {Authorization:document.cookie.split('=')[0]}})
                 .then(response => {
                     console.log(response)
                     return response.json()
@@ -154,9 +154,9 @@
                 .then(data => {
                             // console.log(Object.keys(data))
                             console.log(data)
-                            this.entries = data['entries']
-                            this.client = data['client']
-                            this.dashboard = data['dashboard']
+                            // this.entries = data['entries']
+                            // this.client = data['client']
+                            // this.dashboard = data['dashboard']
                         })
             },
             sendEntry() {

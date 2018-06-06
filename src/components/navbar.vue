@@ -6,20 +6,14 @@
                     <i class="icon icon-home"></i>Home
                 </router-link>
             </at-menu-item>
-
-            <at-menu-item name="4">
-                <router-link class="" to="/signup">
-                    <i class="icon icon-user-plus"></i>Signup
-                </router-link>
-            </at-menu-item>
             <at-menu-item name="4">
                 <router-link class="" to="/clients">
-                    <i class="icon icon-clock"></i>Tracking
+                    <i class="icon icon-clock"></i>My dashboard
                 </router-link>
             </at-menu-item>
             <at-menu-item name="4">
                 <router-link class="" to="/client/232">
-                    <i class="icon icon-award"></i>Client
+                    <i class="icon icon-award"></i>My clients
                 </router-link>
             </at-menu-item>
         </at-menu>
