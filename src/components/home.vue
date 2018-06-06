@@ -9,16 +9,16 @@
                     </div>
                     <div class="form-item">
                         <p class="form-label">Email</p>
-                        <at-input name="input" v-model="emailInput" v-on:change="checkEmailValidity"  placeholder="sarah@abtasty.com" :status="emailSuccess"></at-input>
+                        <at-input name="input" v-model="params.email" v-on:change="checkEmailValidity"  placeholder="sarah@abtasty.com" :status="emailSuccess"></at-input>
                     </div>
 
                     <div class="form-item">
                         <p class="form-label">Password</p>
-                        <at-input type="password" v-model="password" placeholder="azerty"></at-input>
+                        <at-input type="password" v-model="params.password" placeholder="azerty"></at-input>
                     </div>
 
                     <div class="form-item">
-                        <at-button type="primary" ref="button-loading" v-on:click="addLoadingAttribute" :loading="loading">Login</at-button>
+                        <at-button type="primary" ref="button-loading" v-on:click="signin">Login</at-button>
                         <router-link class="" to="/signup">
                             <at-button type="text">Don't have an account yet?</at-button>
                         </router-link>
@@ -36,6 +36,28 @@ import navbar from './navbar.vue'
 export default {
     components: {
         navbar
+    },
+    data () {
+        return {
+            params: {
+                email: null,
+                password: null
+            }
+        }
+    },
+    methods: {
+        signin () {
+            this.$http.post('https://abtracking.herokuapp.com/auth/login', this.params)
+                .then(response => {
+                    this.loading = !this.loading
+                    console.log(response)
+                    return response.json()
+                })
+                .then(data => {
+                    console.log(data)
+                    document.cookie = "jwt=" + data['auth_token']
+                })
+        }
     }
 };
 </script>

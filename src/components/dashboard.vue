@@ -31,23 +31,28 @@ export default {
     },
     data() {
         return {
-            clients: null
+            clients: null,
+            token: document.cookie.split('=')[1],
+            dashboard: null
         }
     },
     mounted () {
-        this.fetchTicker()
+        this.fetchClients()
     },
     methods: {
-        fetchTicker() {
-            this.$http.get('https://abtracking.herokuapp.com/clients', {params: {client: {sales_owner: 'Antoine Rault', status: 'Ongoing'}}})
+        fetchClients() {
+            console.log("starting request")
+            this.$http.get('https://abtracking.herokuapp.com/myclients', { headers: { Authorization:this.token}})
             .then(response => {
+                console.log(response)
+                console.log("received response")
                 return response.json()
             })
             .then(data => {
-                        // console.log(Object.keys(data))
-                        this.clients = data["data"]
-                        console.log(this.clients)
-                    })
+                console.log(data)
+                this.clients = data['clients']
+                this.dashboard = data['dashboard']
+            })
         }
     }
 };
