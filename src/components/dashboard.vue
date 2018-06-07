@@ -52,8 +52,10 @@ export default {
     methods: {
 
         fetchClients() {
+            this.$Loading.start()
             this.$http.get('https://abtracking.herokuapp.com/myclients', { headers: { Authorization:this.token}})
             .then(response => {
+                this.$Loading.finish()
                 this.clients = response.body.clients
                 this.dashboard = response.body.dashboard
                 return response.json()

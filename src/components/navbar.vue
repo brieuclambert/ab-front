@@ -6,11 +6,11 @@
                     <i class="icon icon-clock"></i>My dashboard
                 </router-link>
             </at-menu-item>
-            <!-- <at-menu-item name="4">
-                <router-link class="" to="/client/232">
-                    <i class="icon icon-award"></i>My clients
+            <at-menu-item name="4">
+                <router-link class="" to="/clients">
+                    <i class="icon icon-award"></i>All Clients
                 </router-link>
-            </at-menu-item> -->
+            </at-menu-item>
             <at-menu-item name="4" >
                 <div v-on:click="logout">
                     <i class="icon icon-award"></i>logout

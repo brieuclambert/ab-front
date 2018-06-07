@@ -146,7 +146,6 @@
         },
         methods: {
             fetchEntries() {
-                console.log(this.token)
                 console.log("start")
                 this.$http.get('https://abtracking.herokuapp.com/clients/'+ this.$route.params.id + '/entries', { headers: { Authorization:this.token}})
                 .then(response => {
@@ -154,8 +153,8 @@
                     return response.json()
                 })
                 .then(data => {
-                            // console.log(Object.keys(data))
                             console.log(data)
+                            // console.log(data)
                             this.entries = data
                             // this.client = data['client']
                             // this.dashboard = data['dashboard']
@@ -172,9 +171,8 @@
                     return response.json()
                 })
                 .then(data => {
-                        // console.log(Object.keys(data))
                         console.log(data)
-                        this.$Notify.success({ title: "It's in the box!", message: "Spent " + this.parameters.duration + " hours on '" + this.parameters.task + "' for " + this.client.name })
+                        this.$Notify.success({ title: "It's in the box!", message: "Spent " + this.parameters.duration + " hours on '" + this.parameters.task + "' for " })
                         this.parameters = {
                             description: null,
                             task: null,
