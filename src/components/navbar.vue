@@ -17,6 +17,11 @@
 
                 </div>
             </at-menu-item>
+            <at-menu-item name="4">
+                <router-link class="" to="/timer">
+                    <i class="icon icon-clock"></i>Timer
+                </router-link>
+            </at-menu-item>
         </at-menu>
     </div>
 </template>

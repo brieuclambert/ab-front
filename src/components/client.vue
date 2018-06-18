@@ -34,7 +34,7 @@
                 </div>
             </div>
         </div> -->
-        <div class="row at-row no-gutter">
+        <div class="row at-row no-gutter main-row">
             <div class="col-md-8">
                 <div class="form-new-entry-container">
                     <div class="form-item">
@@ -82,96 +82,101 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-16" >
-                <div class="row">
-                    <div class="col-md-12" v-for="entry in entries">
-                        <at-card style="width: 300px; margin: 20px ;" :bordered="false" >
-                            <h4 slot="title">{{ entry.created_at.split('T')[0] }}</h4>
-                            <div slot="extra">
-                                {{ entry.duration}}
-                            </div>
-                            <ul>
-                                <li>{{ entry.description}}</li>
-                                <li>{{ entry.task }} </li>
-                            </ul>
-                        </at-card>
-                    </div>
-                </div>
-            </div>
+
+            <div class="col-md-16">
+                <table style="width:80%">
+                  <tr>
+                    <th>Description</th>
+                    <th>Project</th>
+                    <th>Task</th>
+                    <th>Duration</th>
+                    <th>Date</th>
+                    <th>Actions</th>
+                </tr>
+                <tr v-for="entry in entries" style="margin:20px;">
+                    <td>{{ entry.description}} </td>
+                    <td>{{ entry.project}} </td>
+                    <td>{{ entry.task}} </td>
+                    <td>{{ entry.duration}} </td>
+                    <td>{{ entry.date}} </td>
+                    <td>{{ }} </td>
+                </tr>
+            </table>
         </div>
-
-
-
-
     </div>
+
+
+
+
+</div>
 </template>
 
 <script>
-    import navbar from './navbar.vue'
-    export default {
-        components: {
-            navbar
-        },
-        data() {
-            return {
-                disabled: false,
-                dashboard: null,
-                client: null,
-                entries: null,
-                token: document.cookie.split('jwt=')[1],
-                parameters: {
-                    description: null,
-                    task: null,
-                    hours: 0,
-                    minutes: 0,
-                    duration: 0
-                }
+import navbar from './navbar.vue'
+export default {
+    components: {
+        navbar
+    },
+    data() {
+        return {
+            disabled: false,
+            dashboard: {},
+            client: [],
+            entries: [],
+            token: document.cookie.split('jwt=')[1],
+            parameters: {
+                description: "",
+                task: "",
+                hours: 0,
+                minutes: 0,
+                duration: 0
             }
-        },
-        mounted () {
-            this.fetchEntries()
-        },
-        computed: {
-            checkEntryCompletion: function() {
-                if (this.parameters.description != "" &&
-                    this.parameters.task != null &&
-                    this.parameters.minutes != null &&
-                    this.parameters.hours != null &&
-                    this.parameters.description != null) {
-                    return false
-                } else {
-                    return true
-                }
-            }
-        },
-        methods: {
-            fetchEntries() {
-                console.log(this.token)
-                console.log("start")
-                this.$http.get('https://abtracking.herokuapp.com/clients/'+ this.$route.params.id + '/entries', { headers: { Authorization:this.token}})
-                .then(response => {
-                    console.log(response)
-                    return response.json()
-                })
-                .then(data => {
+        }
+    },
+    mounted () {
+        this.fetchEntries()
+    },
+    computed: {
+        checkEntryCompletion: function() {
+            if (this.parameters.description != "" &&
+                this.parameters.task != null &&
+                this.parameters.minutes != null &&
+                this.parameters.hours != null &&
+                this.parameters.description != null) {
+                return false
+        } else {
+            return true
+        }
+    }
+},
+methods: {
+    fetchEntries() {
+        console.log(this.token)
+        console.log("start")
+        this.$http.get('https://abtracking.herokuapp.com/clients/'+ this.$route.params.id + '/entries', { headers: { Authorization:this.token}})
+        .then(response => {
+            console.log(response)
+            return response.json()
+        })
+        .then(data => {
                             // console.log(Object.keys(data))
                             console.log(data)
                             this.entries = data
                             // this.client = data['client']
                             // this.dashboard = data['dashboard']
                         })
-            },
-            sendEntry() {
-                console.log(this.token)
-                this.parameters.duration = parseFloat(this.parameters.minutes / 60) + parseFloat(this.parameters.hours)
-                this.$http.post('https://abtracking.herokuapp.com/clients/' + this.$route.params.id + '/entries',
-                    this.parameters,
-                    { headers: { Authorization:this.token}})
-                .then(response => {
-                    console.log(response)
-                    return response.json()
-                })
-                .then(data => {
+    },
+    sendEntry() {
+        console.log(this.token)
+        this.parameters.duration = parseFloat(this.parameters.minutes / 60) + parseFloat(this.parameters.hours)
+        this.$http.post('https://abtracking.herokuapp.com/clients/' + this.$route.params.id + '/entries',
+            this.parameters,
+            { headers: { Authorization:this.token}})
+        .then(response => {
+            console.log(response)
+            return response.json()
+        })
+        .then(data => {
                         // console.log(Object.keys(data))
                         console.log(data)
                         this.$Notify.success({ title: "It's in the box!", message: "Spent " + this.parameters.duration + " hours on '" + this.parameters.task + "' for " + this.client.name })
@@ -184,15 +189,18 @@
                         }
                         this.fetchEntries()
                     })
-            }
-        }
-    };
+    }
+}
+};
 </script>
 
 <style scoped>
+.main-row {
+    padding-top: 40px;
+}
 .form-new-entry-container {
     margin: auto;
-    padding-top: 40px;
+    /*padding-top: 40px;*/
 }
 .form-item {
     width: 300px;
