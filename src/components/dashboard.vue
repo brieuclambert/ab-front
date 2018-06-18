@@ -4,10 +4,38 @@
         <div class="flex-between">
             <div class="row at-row no-gutter flex-center flex-middle dashboard">
                 <div class="col-md-4">
-                    total MRR : {{ dashboard.sum}}
+                    monthly count : {{ dashboard.sum_month}}
+                </div>
+                <div class="col-md-4">
+                    weekly count : {{ dashboard.sum_week}}
+                </div>
+                <div class="col-md-4">
+                    total MRR : {{ Math.round(dashboard.sum_mrr / 1000) }}K€
                 </div>
                 <div class="col-md-4">
                     total clients : {{ dashboard.count}}
+                </div>
+            </div>
+        </div>
+        <div class="flex-between">
+            <div class="row at-row no-gutter flex-center flex-middle dashboard">
+                <div class="col-md-6">
+                    <at-select v-model="parameters.client" filterable size="large" style="width: 240px">
+                        <at-option :key="client.id" v-bind:value="client.id" v-for="client in clients"> {{ client.name }} </at-option>
+                    </at-select>
+                </div>
+                <div class="col-md-6">
+                    <at-select v-model="parameters.project" filterable size="large" style="width: 240px" @select.native="filterTasks">
+                        <at-option :key="project" v-bind:value="project" v-for="project in projects"> {{ project }} </at-option>
+                    </at-select>
+                </div>
+                <div class="col-md-6">
+                    <at-select v-model="parameters.task" filterable size="large" style="width: 240px">
+                        <at-option :key="task" v-bind:value="task" v-for="task in tasks"> {{ task }} </at-option>
+                    </at-select>
+                </div>
+                <div class="col-md-6">
+                    Chart 1 (entries per week)
                 </div>
             </div>
         </div>
@@ -41,19 +69,41 @@ export default {
     },
     data() {
         return {
-            clients: null,
+            clients: {},
             token: document.cookie.split('jwt=')[1],
-            dashboard: null
+            dashboard: {},
+            parameters: {
+                client: "",
+                project: "",
+                task: ""
+            },
+            projects: [
+            "Strategic Accompaniment",
+            "Technical Accompaniment",
+            "Exceptionnal Accompaniment",
+            "Startup",
+            "Debug - Follow up",
+            "Internal",
+            "Support",
+            "Pre-Sale",
+            "Admin",
+            "Others"
+            ],
+            tasks: []
         }
     },
     mounted () {
         this.fetchClients()
+        // this.renderChart(this.datacollection, {responsive: true, maintainAspectRatio: false})
+    },
+    computed: {
+
     },
     methods: {
-
         fetchClients() {
             this.$http.get('https://abtracking.herokuapp.com/myclients', { headers: { Authorization:this.token}})
             .then(response => {
+                console.log(response)
                 this.clients = response.body.clients
                 this.dashboard = response.body.dashboard
                 return response.json()
@@ -64,6 +114,16 @@ export default {
                 }
 
             })
+        },
+        filterTasks() {
+            switch (this.parameters.project) {
+                case 'Strategic Accompaniment':
+                    this.tasks = ["Email", "Phone", "Intercom"];
+                    console.log(this.tasks)
+                default:
+                    this.tasks = ["test", "test 2", "test 3"];
+            console.log(this.parameters.project)
+            }
         }
     }
 };

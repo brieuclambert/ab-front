@@ -21,7 +21,6 @@
                             <at-button type="text">Don't have an account yet?</at-button>
                         </router-link>
                     </div>
-                    <p>status : {{ status }}</p>
                 </div>
 
             </div>
