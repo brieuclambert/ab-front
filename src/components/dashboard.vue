@@ -20,22 +20,24 @@
         <div class="flex-between">
             <div class="row at-row no-gutter flex-center flex-middle dashboard">
                 <div class="col-md-6">
-                    <at-select v-model="parameters.client" filterable size="large" style="width: 240px">
+                    <at-select v-model="parameters.client" filterable size="large" style="width: 200px" placeholder="client">
                         <at-option :key="client.id" v-bind:value="client.id" v-for="client in clients"> {{ client.name }} </at-option>
                     </at-select>
                 </div>
                 <div class="col-md-6">
-                    <at-select v-model="parameters.project" filterable size="large" style="width: 240px" @select.native="filterTasks">
-                        <at-option :key="project" v-bind:value="project" v-for="project in projects"> {{ project }} </at-option>
+                    <at-select v-model="parameters.project" filterable size="large" style="width: 200px" v-on:change="clearTask" placeholder="project">
+                        <at-option v-bind:value="key" v-for="(value, key) in projects" v-on:change="clearTask" > {{ key }} </at-option>
                     </at-select>
                 </div>
                 <div class="col-md-6">
-                    <at-select v-model="parameters.task" filterable size="large" style="width: 240px">
-                        <at-option :key="task" v-bind:value="task" v-for="task in tasks"> {{ task }} </at-option>
+                    <at-select v-model="parameters.task" filterable size="large" style="width: 200px" placeholder="task">
+                        <at-option :key="task" v-bind:value="task" v-for="task in projects[parameters.project]"> {{ task }} </at-option>
                     </at-select>
                 </div>
                 <div class="col-md-6">
-                    Chart 1 (entries per week)
+                    Client : {{parameters.client }} <br>
+                    Project : {{parameters.project }} <br>
+                    task : {{parameters.task }}
                 </div>
             </div>
         </div>
@@ -77,18 +79,18 @@ export default {
                 project: "",
                 task: ""
             },
-            projects: [
-            "Strategic Accompaniment",
-            "Technical Accompaniment",
-            "Exceptionnal Accompaniment",
-            "Startup",
-            "Debug - Follow up",
-            "Internal",
-            "Support",
-            "Pre-Sale",
-            "Admin",
-            "Others"
-            ],
+            projects: {
+                "Strategic Accompaniment" : ["Email", "Phone", "Intercom", "Meeting", "Roadmap"],
+                "Technical Accompaniment" : ["Email", "Phone", "Intercom", "Meeting", "Roadmap"],
+                "Exceptionnal Accompaniment" : ["Email", "Phone", "Intercom", "Meeting", "Roadmap"],
+                "Startup" : ["Formation", "Set-up"],
+                "Debug - Follow up" : ["Email", "Slack"],
+                "Internal" : ["Case-Study", "Handover", "Meeting", "Agency"],
+                "Support" : ["Email", "Phone", "Intercom"],
+                "Pre-Sale" : ["Email", "Phone", "Meeting"],
+                "Admin" : ["Big-up", "RH", "BYS"],
+                "Others" : ["Others"]
+            },
             tasks: []
         }
     },
@@ -115,15 +117,8 @@ export default {
 
             })
         },
-        filterTasks() {
-            switch (this.parameters.project) {
-                case 'Strategic Accompaniment':
-                    this.tasks = ["Email", "Phone", "Intercom"];
-                    console.log(this.tasks)
-                default:
-                    this.tasks = ["test", "test 2", "test 3"];
-            console.log(this.parameters.project)
-            }
+        clearTask() {
+            this.parameters.task = ""
         }
     }
 };
